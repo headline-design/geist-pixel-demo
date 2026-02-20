@@ -29,9 +29,10 @@ function Digit({ value, label }: { value: number; label: string }) {
 }
 
 export function CountdownBanner() {
-  const [time, setTime] = useState(getTimeLeft)
+  const [time, setTime] = useState<{ hours: number; minutes: number; seconds: number } | null>(null)
 
   useEffect(() => {
+    setTime(getTimeLeft())
     const interval = setInterval(() => setTime(getTimeLeft()), 1000)
     return () => clearInterval(interval)
   }, [])
@@ -47,15 +48,15 @@ export function CountdownBanner() {
             Something new is arriving
           </h2>
           <div className="flex items-center gap-3 md:gap-6 mt-2">
-            <Digit value={time.hours} label="Hours" />
+            <Digit value={time?.hours ?? 0} label="Hours" />
             <span className="font-[family-name:var(--font-geist-pixel-square)] text-3xl md:text-5xl text-muted-foreground mt-[-24px]">
               :
             </span>
-            <Digit value={time.minutes} label="Min" />
+            <Digit value={time?.minutes ?? 0} label="Min" />
             <span className="font-[family-name:var(--font-geist-pixel-square)] text-3xl md:text-5xl text-muted-foreground mt-[-24px]">
               :
             </span>
-            <Digit value={time.seconds} label="Sec" />
+            <Digit value={time?.seconds ?? 0} label="Sec" />
           </div>
           <p className="text-muted-foreground text-sm max-w-md leading-relaxed mt-2">
             Pixel Square is the classic choice for countdown timers and event banners, with its strong readability at large sizes.
